@@ -11,6 +11,8 @@ Factory.sequence :email do |n|
 end
 
 Factory.define :blogpost do |blogpost|
-  blogpost.content "Foo Bar"
+  blogpost.title "The title"
+  blogpost.subtitle "The subtitle"
+  blogpost.content "The content."
   blogpost.association :user
 end
