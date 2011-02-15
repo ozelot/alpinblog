@@ -5,8 +5,23 @@ describe BlogpostsController do
 
   describe "access control" do
 
-    it "should be denied access to create" do
-      get 'new'
+    it "should be denied access to new page" do
+      get :new
+      response.should redirect_to(signin_path)
+    end
+
+    it "should be denied access to resource creation" do
+      post :create
+      response.should redirect_to(signin_path)
+    end
+
+    it "should be denied access to resource update" do
+      put :update, :id => 1
+      response.should redirect_to(signin_path)
+    end
+
+    it "should be denied access to resource deletion" do
+      delete :destroy, :id => 1
       response.should redirect_to(signin_path)
     end
   end
