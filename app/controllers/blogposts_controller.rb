@@ -1,4 +1,5 @@
 class BlogpostsController < ApplicationController
+  before_filter :authenticate
 
   def new
     @blogpost = Blogpost.new
