@@ -2,9 +2,9 @@
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 development:
   adapter: mysql
-  database: sampleapp_dev
-  username: sampleapp
-  password: sampleapp
+  database: alpinblog_dev
+  username: alpinblog
+  password: alpinblog
   pool: 5
   timeout: 5000
 
