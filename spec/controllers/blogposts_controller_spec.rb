@@ -5,29 +5,32 @@ describe BlogpostsController do
 
   describe "access control" do
 
-    it "should deny access to new page" do
-      get :new
-      response.should redirect_to(signin_path)
-    end
+    describe "not signed-in users" do
 
-    it "should deny access to resource creation" do
-      post :create
-      response.should redirect_to(signin_path)
-    end
-
-    it "should deny access to resource edit page" do
-      get :edit, :id => 1
-      response.should redirect_to(signin_path)
-    end
-
-    it "should deny access to resource update" do
-      put :update, :id => 1
-      response.should redirect_to(signin_path)
-    end
-
-    it "should deny access to resource deletion" do
-      delete :destroy, :id => 1
-      response.should redirect_to(signin_path)
+      it "should be denied access to new page" do
+        get :new
+        response.should redirect_to(signin_path)
+      end
+      
+      it "should be denied access to resource creation" do
+        post :create
+        response.should redirect_to(signin_path)
+      end
+      
+      it "should be denied access to resource edit page" do
+        get :edit, :id => 1
+        response.should redirect_to(signin_path)
+      end
+      
+      it "should be denied access to resource update" do
+        put :update, :id => 1
+        response.should redirect_to(signin_path)
+      end
+      
+      it "should be denied access to resource deletion" do
+        delete :destroy, :id => 1
+        response.should redirect_to(signin_path)
+      end
     end
   end
 
@@ -203,6 +206,41 @@ describe BlogpostsController do
   end
 
   describe "DELETE 'destroy'" do
-  end
 
+    before(:each) do
+      @user = Factory(:user)
+      @blogpost = Factory(:blogpost, :user => @user)
+    end
+
+    describe "failure" do
+    end
+
+    describe "success" do
+
+      before(:each) do
+        test_sign_in(@user)
+      end
+     
+      it "should delete the blogpost" do
+        lambda do
+          delete :destroy, :id => @blogpost
+          flash[:success].should =~ /Blogpost deleted/i
+          response.should redirect_to(user_path(@user))
+        end.should change(Blogpost, :count).by(-1)
+      end
+    end
+
+    describe "authentication" do
+      
+      before(:each) do
+        wrong_user = Factory(:user, :email => Factory.next(:email))
+        test_sign_in(wrong_user)
+      end
+
+      it "should deny access" do
+        delete :destroy, :id => @blogpost
+        response.should redirect_to(root_path)
+      end 
+    end
+  end
 end

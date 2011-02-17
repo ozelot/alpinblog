@@ -1,6 +1,6 @@
 class BlogpostsController < ApplicationController
   before_filter :authenticate, :except => [:show]
-  before_filter :authorized_user, :only => [:edit,:update]
+  before_filter :authorized_user, :only => [:edit,:update,:destroy]
 
   def new
     @blogpost = Blogpost.new
@@ -47,6 +47,9 @@ class BlogpostsController < ApplicationController
   end
 
   def destroy
+    @blogpost.destroy
+    flash[:success] = 'Blogpost deleted'
+    redirect_to(user_path(current_user))
   end
 
   private
