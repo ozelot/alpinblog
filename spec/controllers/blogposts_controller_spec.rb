@@ -48,6 +48,24 @@ describe BlogpostsController do
     end
   end
 
+  describe "GET 'show'" do
+
+    before(:each) do
+      @user = Factory(:user)
+      @blogpost = Factory(:blogpost, :user => @user)
+    end
+
+    it "should be successful" do
+      get :show, :id => @blogpost
+      response.should be_success
+    end
+    
+    it "should have the right title" do
+      get :show, :id => 1
+      response.should have_selector("title", :content => "Blogpost")
+    end
+  end
+
   describe "POST 'create'" do
     
     before(:each) do
@@ -77,7 +95,7 @@ describe BlogpostsController do
       it "should create a new blogpost" do 
         lambda do
           post :create, :blogpost => @blogpost
-          response.should redirect_to(root_path)
+          response.should render_template('show')
         end.should change(Blogpost, :count).by(1)
       end
     end

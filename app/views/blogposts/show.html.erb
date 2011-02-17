@@ -1,0 +1,18 @@
+<table class="blogpost" summary="Blogpost complete">
+  <tr>
+    <td class="main">
+      <h1>
+	<%= @blogpost.title %>
+      </h1>
+      <h4>
+      <%= @blogpost.subtitle %>
+      </h4>
+      <%= @blogpost.content %>
+    </td>
+    <td class="sidebar round">
+      <%= gravatar_for @blogpost.user %> <%= @blogpost.user.name %><br />
+      <strong>URL</strong> <%= link_to user_path(@blogpost.user), @blogpost.user %><br />
+      <strong>Posts</strong> <%= @blogpost.user.blogposts.count %>
+    </td>
+  </tr>
+</table>

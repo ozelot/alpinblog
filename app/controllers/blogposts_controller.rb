@@ -1,5 +1,5 @@
 class BlogpostsController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate, :except => [:show]
   before_filter :correct_user, :only => [:edit,:update]
 
   def new
@@ -11,7 +11,7 @@ class BlogpostsController < ApplicationController
     @blogpost = current_user.blogposts.build(params[:blogpost])
     if @blogpost.save
       flash[:success] = "Blogpost created!"
-      redirect_to root_path
+      render :show
     else
       render 'new'
     end
@@ -38,6 +38,12 @@ class BlogpostsController < ApplicationController
   end
 
   def show
+    @blogpost = Blogpost.find_by_id(params[:id])
+    if @blogpost != nil
+      @title = "Blogpost"
+    else
+      redirect_to(root_path)
+    end
   end
 
   def destroy
