@@ -7,7 +7,21 @@
       <h4>
       <%= @blogpost.subtitle %>
       </h4>
-      <%= @blogpost.content %>
+      <%= @blogpost.content %> <br />
+      <% user = @blogpost.user rescue User.find(@blogpost.user_id) %>
+      <% if current_user?(user) %>  
+      <nav class ="round">
+      <ul>
+	<li><%= link_to "edit", edit_blogpost_path(@blogpost), :method => :get,
+	                                                       :title => @blogpost.title %>
+	</li>
+	<li><%= link_to "delete", @blogpost, :method => :delete,
+                                             :confirm => "Are You sure?",
+	                                     :title => @blogpost.title %>
+	</li>
+      </ul>
+      </nav>
+      <% end %>
     </td>
     <td class="sidebar round">
       <%= gravatar_for @blogpost.user %> <%= @blogpost.user.name %><br />
