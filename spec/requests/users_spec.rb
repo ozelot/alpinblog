@@ -75,4 +75,48 @@ describe "Users" do
       end
     end
   end
+
+  describe "layout links in 'show'" do
+
+    before(:each) do
+      @user = Factory(:user)
+      @blogpost = Factory(:blogpost, :user => @user)
+    end
+
+    describe "for not-signed-in users" do
+
+      it "should have a correct [...] link" do
+        visit user_path(@user)
+        click_link("[...]")
+        response.should render_template('blogposts/show')
+      end
+    end
+
+    describe "for authorized users" do
+
+      before(:each) do
+        integration_sign_in(@user)
+      end
+
+      it "should have a correct [...] link" do
+        visit user_path(@user)
+        click_link("[...]")
+        response.should render_template('blogposts/show')
+      end
+
+      it "should have a correct edit link" do
+        visit user_path(@user)
+        click_link("edit")
+        response.should render_template('blogposts/edit')
+      end
+
+      it "should have a correct delete link" do
+        visit user_path(@user)
+        click_link("delete")
+        # dont know how to test confirm on click "delete"
+        # click_link("delete", :confirm => true)
+      end
+    end
+  end
 end
+

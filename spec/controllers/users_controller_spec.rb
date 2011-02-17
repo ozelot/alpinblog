@@ -76,6 +76,7 @@ describe UsersController do
 
     before(:each) do
       @user = Factory(:user)
+      @blogpost = Factory(:blogpost, :user => @user)
     end
 
     it "should be successful" do
@@ -103,7 +104,14 @@ describe UsersController do
       response.should have_selector("h1>img", :class => "gravatar")
     end
 
-  end
+    it "should show the users microposts" do
+      mp1 = Factory(:blogpost, :user => @user, :content => "Foo bar")
+      mp2 = Factory(:blogpost, :user => @user, :content => "Ba blar")
+      get :show, :id => @user
+      response.should have_selector("span.content", :content => mp1.content)
+      response.should have_selector("span.content", :content => mp2.content)
+    end
+ end
 
   describe "GET '/signup'" do
 

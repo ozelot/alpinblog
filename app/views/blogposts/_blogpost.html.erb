@@ -1,0 +1,27 @@
+<tr>
+  <td class="blogpost">
+    <span class="title">
+      <%= blogpost.title %>
+    </span>
+    <span class="subtitle">
+      <%= blogpost.subtitle %>
+    </span>
+    <span class="content">
+      <%= blogpost.content[0..100] %> <%= link_to "[...]", blogpost, :method => :get,
+                                  :title => blogpost.title %>
+    </span>
+    <span class="timestamp">
+      Posted: <%= time_ago_in_words(blogpost.created_at) %> ago.
+    </span>
+  </td>
+  <% user = blogpost.user rescue User.find(blogpost.user_id) %>
+  <% if current_user?(user) %>  
+  <td>
+    <%= link_to "edit", edit_blogpost_path(blogpost), :method => :get,
+                                  :title => blogpost.title %>
+    <%= link_to "delete", blogpost, :method => :delete,
+                                    :confirm => "Are You sure?",
+                                    :title => blogpost.title %>
+  </td>
+  <% end %>
+</tr>

@@ -195,3 +195,76 @@ ul.users {
 .users li {
   list-style: none;
 }
+
+
+/* Styling blogposts */
+
+h1.blogpost {
+  margin-bottom: 0.3em;
+}
+
+table.blogposts {
+  margin-top: 1em;
+}
+
+table.blogposts tr {
+  height: 70px;
+}
+
+table.blogposts tr td.gravatar {
+  border-top: 1px solid #ccc;
+  vertical-align: top;
+  width: 50px;
+}
+
+table.blogposts tr td.blogpost {
+  border-top: 1px solid #ccc;
+  vertical-align: top;
+  padding-top: 10px;
+}
+
+table.blogposts tr td.blogpost span.title {
+  display: block;
+}
+
+table.blogposts tr td.blogpost span.subtitle {
+  display: block;
+  font-size: 85%;
+  color: #666;
+}
+
+table.blogposts tr td.blogpost span.content {
+  display: block;
+  font-size: 85%;
+}
+
+table.blogposts tr td.blogpost span.timestamp {
+  display: block;
+  font-size: 85%;
+  color: #666;
+}
+
+div.user_info img {
+  padding-right: 0.1em;
+}
+
+div.user_info a {
+  text-decoration: none;
+}
+
+div.user_info span.user_name {
+  position: absolute;
+}
+
+div.user_info span.blogposts {
+  font-size: 80%;
+}
+
+form.new_blogpost {
+  margin-bottom: 2em;
+}
+
+form.new_blogpost textarea {
+  height: 4em;
+  margin-bottom: 0;
+}
