@@ -1,6 +1,6 @@
 class BlogpostsController < ApplicationController
   before_filter :authenticate, :except => [:show]
-  before_filter :correct_user, :only => [:edit,:update]
+  before_filter :authorized_user, :only => [:edit,:update]
 
   def new
     @blogpost = Blogpost.new
@@ -51,13 +51,9 @@ class BlogpostsController < ApplicationController
 
   private
     
-    def correct_user
+    def authorized_user
       @blogpost = Blogpost.find_by_id(params[:id])
-      if @blogpost == nil
-        redirect_to(root_path)
-      else
-        redirect_to(root_path) unless current_user?(@blogpost.user)
-      end
+      redirect_to(root_path) unless current_user?(@blogpost.user)
     end
 
     def admin_user

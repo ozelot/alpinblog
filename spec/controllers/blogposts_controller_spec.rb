@@ -91,7 +91,7 @@ describe BlogpostsController do
     end
 
     describe "success" do
-      
+
       it "should create a new blogpost" do 
         lambda do
           post :create, :blogpost => @blogpost
@@ -133,11 +133,6 @@ describe BlogpostsController do
 
       it "should deny access" do
         get :edit, :id => @blogpost
-        response.should redirect_to(root_path)
-      end
-
-      it "should redirect to root path" do
-        get :edit, :id => @blogpost.object_id + 1
         response.should redirect_to(root_path)
       end
     end
