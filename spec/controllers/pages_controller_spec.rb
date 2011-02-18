@@ -19,6 +19,27 @@ describe PagesController do
       response.should have_selector("title",
                                     :content => @base_title + "Home")
     end
+
+    it "should have a signup botton" do
+      get 'home'
+      response.should have_selector("a.signup_button",
+                                    :content => "Sign up now!")
+    end
+
+    describe "for signed in users" do
+
+      before(:each) do
+        @user = Factory(:user)
+        test_sign_in(@user)
+      end
+
+      it "should have no signup botton" do
+        get 'home'
+        response.should_not have_selector("a.signup_button",
+                                      :content => "Sign up now!")
+      end
+    end
+
   end
 
   describe "GET 'contact'" do

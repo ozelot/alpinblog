@@ -75,11 +75,17 @@ describe "Blogposts" do
 
     describe "for not signed-in users" do
 
-      before(:each) do
+      it "should not have a delete and edit link on home page" do
         visit root_path
+        response.should_not have_selector("a", :content => "edit")
+        response.should_not have_selector("a", :content => "delete")
+        click_link("[...]")
+        response.should_not have_selector("a", :content => "edit")
+        response.should_not have_selector("a", :content => "delete")
       end
-      
-      it "should not have a delete and edit link" do
+
+      it "should not have a delete and edit link on blogpost show page" do
+        visit root_path
         click_link("[...]")
         response.should_not have_selector("a", :content => "edit")
         response.should_not have_selector("a", :content => "delete")
@@ -91,6 +97,17 @@ describe "Blogposts" do
       before(:each) do
         integration_sign_in(@user)
         visit root_path
+      end
+
+      it "should have a delete and edit link on home page" do
+        response.should have_selector("a", :content => "edit")
+        response.should have_selector("a", :content => "delete")
+      end
+
+      it "should have a delete and edit link on blogpost show page" do
+        click_link("[...]")
+        response.should have_selector("a", :content => "edit")
+        response.should have_selector("a", :content => "delete")
       end
 
       it "should have correct edit link on blogposts show page" do

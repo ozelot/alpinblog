@@ -11,17 +11,20 @@
                                   :title => blogpost.title %>
     </span>
     <span class="timestamp">
-      Posted: <%= time_ago_in_words(blogpost.created_at) %> ago.
-    </span>
-  </td>
-  <% user = blogpost.user rescue User.find(blogpost.user_id) %>
-  <% if current_user?(user) %>  
-  <td>
-    <%= link_to "edit", edit_blogpost_path(blogpost), :method => :get,
-                                  :title => blogpost.title %>
-    <%= link_to "delete", blogpost, :method => :delete,
+      Posted: <%= time_ago_in_words(blogpost.created_at) %> ago
+      <% if not signed_in? or not current_user?(blogpost.user) %>  
+      <% user = blogpost.user rescue User.find(blogpost.user_id) %>
+      by
+      <%= link_to "#{blogpost.user.name}", blogpost.user, :method => :get,
+      :title => blogpost.user %>
+  <% else %>
+  You 
+  <%= link_to "edit", edit_blogpost_path(blogpost), :method => :get,
+  :title => blogpost.title %>
+  <%= link_to "delete", blogpost, :method => :delete,
                                     :confirm => "Are You sure?",
                                     :title => blogpost.title %>
-  </td>
+    </span>
   <% end %>
+  </td>
 </tr>
