@@ -3,7 +3,7 @@
 development:
   adapter: mysql
   database: alpinblog_dev
-  username: alpinblog
+  username: alpinblog_dev
   password: alpinblog
   pool: 5
   timeout: 5000
@@ -18,7 +18,9 @@ test:
   timeout: 5000
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: mysql
+  database: alpinblog_prod
+  username: alpinblog_prod
+  password: alpinblog
   pool: 5
   timeout: 5000
