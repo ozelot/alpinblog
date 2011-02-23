@@ -3,7 +3,7 @@
 }
 
 body {
-  background: #cff;
+  background-image: url(../images/gradient.png);
 }
 
 header {
@@ -12,7 +12,7 @@ header {
 
 header img {
   padding: 1em;
-  background: #fff;
+  background: transparent;
 }
 
 section {
@@ -29,7 +29,7 @@ section h1 {
 /* Links */
 
 a {
-  color: #09c;
+  color: #00527A;
   text-decoration: none;
 }
 
@@ -268,3 +268,7 @@ form.new_blogpost textarea {
   height: 4em;
   margin-bottom: 0;
 }
+
+
+/* Styling the logo page */
+
