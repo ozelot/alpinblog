@@ -72,5 +72,12 @@ describe "LayoutLinks" do
       response.should have_selector("a", :href => user_path(@user),
                                          :content => "Profile")
     end
+
+    it "should have a create post link" do
+      visit root_path
+      response.should have_selector("a", :href => new_blogpost_path,
+                                         :content => "Create new Post!")
+    end
+
   end
 end

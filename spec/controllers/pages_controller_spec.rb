@@ -26,6 +26,12 @@ describe PagesController do
                                     :content => "Sign up now!")
     end
 
+    it "should not have a create post botton" do
+      get 'home'
+      response.should_not have_selector("a.create_post_button",
+                                    :content => "Create new Post!")
+    end
+
     describe "for signed in users" do
 
       before(:each) do
@@ -38,8 +44,13 @@ describe PagesController do
         response.should_not have_selector("a.signup_button",
                                       :content => "Sign up now!")
       end
-    end
 
+      it "should have a create post botton" do
+        get 'home'
+        response.should have_selector("a.create_post_button",
+                                          :content => "Create new Post!")
+      end
+    end
   end
 
   describe "GET 'contact'" do

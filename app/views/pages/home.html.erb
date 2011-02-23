@@ -1,5 +1,7 @@
 <% if not signed_in? %>
 <%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
+<% else %>
+<%= link_to "Create new Post!", new_blogpost_path, :class => "create_post_button round" %>
 <% end %>
 <% unless @blogposts.empty? %>
 <table class="blogposts" summary="User blogposts">

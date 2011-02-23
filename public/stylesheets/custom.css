@@ -91,6 +91,18 @@ a.signup_button {
   padding: 20px;
 }
 
+a.create_post_button {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
+  width: 190px;
+  color: #fff;
+  background: #00527A;
+  font-weight: bold;
+  padding: 10px;
+}
+
 /* Round corners */
 
 .round {
