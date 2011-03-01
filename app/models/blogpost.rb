@@ -1,7 +1,11 @@
 class Blogpost < ActiveRecord::Base
-  attr_accessible :title, :subtitle, :content
+  attr_accessible :title, :subtitle, :content, :photo
 
   belongs_to :user
+
+  has_attached_file :photo, 
+                    :styles => { :medium => "300x300>",
+                                 :thumb => "100x100>" }
 
   default_scope :order => 'blogposts.created_at DESC'
 

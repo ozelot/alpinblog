@@ -1,7 +1,2 @@
 <h1>Create new Post</h1>
-<%= form_for(@blogpost) do |f| %>
-<%= render 'fields', :f => f %>
-<div class="actions">
-  <%= f.submit "Create Post" %>
-</div>
-<% end %>
+<%= render 'form' %>

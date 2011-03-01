@@ -62,10 +62,20 @@ describe BlogpostsController do
       get :show, :id => @blogpost
       response.should be_success
     end
-    
+
+    it "should render the show page" do
+      post :show, :id => @blogpost
+      response.should render_template('blogposts/show')
+    end
+
     it "should have the right title" do
       get :show, :id => 1
       response.should have_selector("title", :content => "Blogpost")
+    end
+
+    it "should display the correct image" do
+      get :show, :id => 1
+      response.should have_selector("img", :alt => "Rails")
     end
   end
 
@@ -87,10 +97,20 @@ describe BlogpostsController do
          end.should_not change(Blogpost, :count)
       end
       
-      it "should render the home page" do
+      it "should render the new page" do
         post :create, :blogpost => @blogpost.merge(:title => "")
         response.should render_template('blogposts/new')
       end   
+
+      it "should render the new page" do
+        post :create, :blogpost => @blogpost.merge(:subtitle => "")
+        response.should render_template('blogposts/new')
+      end
+
+      it "should render the new page" do
+        post :create, :blogpost => @blogpost.merge(:content => "")
+        response.should render_template('blogposts/new')
+      end
     end
 
     describe "success" do
@@ -166,6 +186,8 @@ describe BlogpostsController do
         put :update, :id => @blogpost, :blogpost => @attr
         response.should have_selector("title", :content => "Edit Blogpost")
       end
+
+      it "should reject bad upload filename"
     end
 
     describe "success" do
