@@ -6,24 +6,28 @@
     <span class="subtitle">
       <%= blogpost.subtitle %>
     </span>
+    <span class="photo">
+      <%= image_tag blogpost.photo.url(:thumb) %>
+    </span>
     <span class="content">
       <%= blogpost.content[0..100] %> <%= link_to "[...]", blogpost, :method => :get,
                                   :title => blogpost.title %>
     </span>
     <span class="timestamp">
-      Posted: <%= time_ago_in_words(blogpost.created_at) %> ago
+      Posted: <%= time_ago_in_words(blogpost.created_at) %> ago by 
       <% if not signed_in? or not current_user?(blogpost.user) %>  
       <% user = blogpost.user rescue User.find(blogpost.user_id) %>
-      by
       <%= link_to "#{blogpost.user.name}", blogpost.user, :method => :get,
       :title => blogpost.user %>
-  <% else %>
-  You 
-  <%= link_to "edit", edit_blogpost_path(blogpost), :method => :get,
-  :title => blogpost.title %>
-  <%= link_to "delete", blogpost, :method => :delete,
-                                    :confirm => "Are You sure?",
-                                    :title => blogpost.title %>
+      <% else %>
+      <%= link_to "You", blogpost.user, :method => :get, :title => "Your Profile" %>
+      <span class="right">
+	<%= link_to "edit", edit_blogpost_path(blogpost), :method => :get,
+	:title => blogpost.title %>
+	<%= link_to "delete", blogpost, :method => :delete,
+        :confirm => "Are You sure?",
+        :title => blogpost.title %>
+      </span>
     </span>
   <% end %>
   </td>

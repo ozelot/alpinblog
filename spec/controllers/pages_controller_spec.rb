@@ -5,7 +5,9 @@ describe PagesController do
 
   before(:each) do
     # Define @base_title here
-    @base_title = "Ruby on Rails Tutorial Sample App | " 
+    @base_title = "Ruby on Rails Tutorial Sample App | "
+    @user = Factory(:user)
+    @blogpost = Factory(:blogpost, :user => @user)
   end
 
   describe "GET 'home'" do
@@ -32,10 +34,15 @@ describe PagesController do
                                     :content => "Create new Post!")
     end
 
+    it "should display the blogpost image" do
+      get 'home'
+      response.should have_selector("img",
+                                    :alt => "Rails")
+    end
+
     describe "for signed in users" do
 
       before(:each) do
-        @user = Factory(:user)
         test_sign_in(@user)
       end
 
