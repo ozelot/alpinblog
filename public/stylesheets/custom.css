@@ -1,9 +1,10 @@
 .container {
-  width: 710px;
+  width: 700px;
 }
 
 body {
-  background-image: url(../images/gradient.png);
+  background-image: url(../images/bg.jpg);
+  background-repeat: repeat-x;
 }
 
 header {
@@ -20,6 +21,9 @@ section {
   font-size: 120%;
   padding: 20px;
   background: #fff;
+  -moz-box-shadow: 5px 5px 25px #888;
+  -webkit-box-shadow: 5px 5px 25px #888;
+  box-shadow: 5px 5px 25px #888;
 }
 
 section h1 {
@@ -50,6 +54,7 @@ nav {
   background-color: white;
   padding: 0 0.7em;
   white-space: nowrap;
+
 }
 
 nav ul {
@@ -116,13 +121,17 @@ a.create_post_button {
 footer {
   text-align: center;
   margin-top: 10px;
-  width: 710px;
+  width: 700px;
   margin-left: auto;
   margin-right: auto;
 }
 
 footer nav {
   float: none;
+  -moz-box-shadow: 5px 5px 25px #888;
+  -webkit-box-shadow: 5px 5px 25px #888;
+  box-shadow: 5px 5px 25px #888;
+
 }
 
 /* User show page*/
