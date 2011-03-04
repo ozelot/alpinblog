@@ -1,7 +1,9 @@
 class Blogpost < ActiveRecord::Base
-  attr_accessible :title, :subtitle, :content, :photo
+  attr_accessible :title, :subtitle, :content, :photo, :upload, :uploads_attributes
 
   belongs_to :user
+  has_many :uploads, :dependent => :destroy
+  accepts_nested_attributes_for :uploads
 
   has_attached_file :photo, 
                     :styles => { :medium => "300x300>",

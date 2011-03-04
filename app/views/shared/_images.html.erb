@@ -1,0 +1,5 @@
+<div class="photo">
+  <% blogpost.uploads.each do |upload| %>
+    <%= image_tag upload.image.url(:thumb) %>
+  <% end %>
+</div>

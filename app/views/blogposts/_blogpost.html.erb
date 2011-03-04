@@ -6,9 +6,7 @@
     <span class="subtitle">
       <%= blogpost.subtitle %>
     </span>
-    <span class="photo">
-      <%= image_tag blogpost.photo.url(:thumb) %>
-    </span>
+    <%= render 'shared/images', :blogpost => blogpost %>
     <span class="content">
       <%= blogpost.content[0..100] %> <%= link_to "[...]", blogpost, :method => :get,
                                   :title => blogpost.title %>

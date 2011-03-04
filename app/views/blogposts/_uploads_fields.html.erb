@@ -1,0 +1,18 @@
+<div class="files"> 
+  <%= f.fields_for :uploads do |upload_fields| %>
+  <p>
+    <div>
+      <%= upload_fields.label :name, 'Upload:' %>
+      <%= upload_fields.file_field :image %>
+    </div>
+    <% unless upload_fields.object.new_record? %>
+    <div>
+      <%= upload_fields.label :_delete, 'Remove:' %>
+      <%= upload_fields.check_box :_delete %>
+    </div>
+    <% end %>
+  </p>
+  <% end %>
+  <table class="upload_files"></table>
+  <table class="download_files"></table>
+</div>

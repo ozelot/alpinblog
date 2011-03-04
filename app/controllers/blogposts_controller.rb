@@ -5,6 +5,7 @@ class BlogpostsController < ApplicationController
   def new
     @blogpost = Blogpost.new
     @title = "Create new Post"
+    @uploads = @blogpost.uploads.build
   end
   
   def create
@@ -13,12 +14,14 @@ class BlogpostsController < ApplicationController
       flash[:success] = "Blogpost created!"
       render :show
     else
+      @uploads = @blogpost.uploads.build
       render 'new'
     end
   end
 
   def edit
     @blogpost = Blogpost.find_by_id(params[:id])
+    @upload = @blogpost.uploads.build
     if @blogpost != nil
       @title = "Edit Blogpost"
     else
@@ -33,6 +36,7 @@ class BlogpostsController < ApplicationController
       redirect_to blogpost_path(@blogpost)
     else
       @title = "Edit Blogpost"
+      @upload = @blogpost.uploads.build
       render 'edit'
     end
   end
