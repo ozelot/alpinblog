@@ -1,18 +1,18 @@
 <div class="files"> 
   <%= f.fields_for :uploads do |upload_fields| %>
   <p>
+    <% if upload_fields.object.new_record? %>
     <div>
       <%= upload_fields.label :name, 'Upload:' %>
-      <%= upload_fields.file_field :image %>
+      <%= upload_fields.file_field :image, :multiple => true, :name => 'blogpost[uploads_attributes][][image]' %>
     </div>
-    <% unless upload_fields.object.new_record? %>
+    <% else %>
     <div>
-      <%= upload_fields.label :_delete, 'Remove:' %>
-      <%= upload_fields.check_box :_delete %>
+      <%= image_tag upload_fields.object.image.url(:thumb) %>
+      <%= upload_fields.label :_destroy , 'Remove:' %>
+      <%= upload_fields.check_box :_destroy %>
     </div>
     <% end %>
   </p>
   <% end %>
-  <table class="upload_files"></table>
-  <table class="download_files"></table>
 </div>

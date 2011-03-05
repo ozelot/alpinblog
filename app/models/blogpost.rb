@@ -3,7 +3,7 @@ class Blogpost < ActiveRecord::Base
 
   belongs_to :user
   has_many :uploads, :dependent => :destroy
-  accepts_nested_attributes_for :uploads
+  accepts_nested_attributes_for :uploads, :allow_destroy => true
 
   has_attached_file :photo, 
                     :styles => { :medium => "300x300>",
