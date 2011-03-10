@@ -7,7 +7,7 @@ describe PagesController do
     # Define @base_title here
     @base_title = "Ruby on Rails Tutorial Sample App | "
     @user = Factory(:user)
-    @blogpost = Factory(:blogpost, :user => @user)
+    @blogpost = Factory(:blogpost_with_upload, :user => @user)
   end
 
   describe "GET 'home'" do
@@ -36,8 +36,7 @@ describe PagesController do
 
     it "should display the blogpost image" do
       get 'home'
-      response.should have_selector("img",
-                                    :alt => "Rails")
+      response.should have_selector("img", :alt => "Rails")
     end
 
     describe "for signed in users" do

@@ -55,7 +55,7 @@ describe BlogpostsController do
 
     before(:each) do
       @user = Factory(:user)
-      @blogpost = Factory(:blogpost, :user => @user)
+      @blogpost = Factory(:blogpost_with_upload, :user => @user)
     end
 
     it "should be successful" do
@@ -83,14 +83,16 @@ describe BlogpostsController do
     
     before(:each) do
       @user = Factory(:user)
-      @blogpost = {:title => "The Title",
-                   :subtitle => "The subtitle",
-                   :content => "The content."}
       test_sign_in(@user)
+      @blogpost = {:title => "The Title",
+        :subtitle => "The subtitle",
+        :content => "The content.",
+        :uploads_attributes => { :image => { :image_file_name => "spec/fixtures/images/rails.png"} }
+      }
     end
 
     describe "failure" do
-      
+
       it "should not create a blogpost with no title" do 
         lambda do
           post :create, :blogpost => @blogpost.merge(:title => "")
@@ -121,6 +123,11 @@ describe BlogpostsController do
           response.should render_template('show')
         end.should change(Blogpost, :count).by(1)
       end
+      
+      it "should display the correct blogpost image" do
+        post :create, :blogpost => @blogpost
+        response.should have_selector("img", :alt => "Rails")
+      end
     end
   end
 
@@ -130,7 +137,7 @@ describe BlogpostsController do
     
       before(:each) do
         @user = Factory(:user)
-        @blogpost = Factory(:blogpost, :user => @user)
+        @blogpost = Factory(:blogpost_with_upload, :user => @user)
         test_sign_in(@user)
       end
     
@@ -142,6 +149,12 @@ describe BlogpostsController do
       it "should have the right title" do
         get :edit, :id => @blogpost
         response.should have_selector("title", :content => "Edit Blogpost")
+      end
+
+      it "should diplay image and remove box" do
+        get :edit, :id => @blogpost
+        response.should have_selector("img", :alt => "Rails")
+        response.should have_selector("input" , :name => "blogpost[uploads_attributes][0][id]")
       end
     end
 
@@ -165,38 +178,42 @@ describe BlogpostsController do
 
     before(:each) do
       @user = Factory(:user)
-      @blogpost = Factory(:blogpost, :user => @user)
+      @blogpost = Factory(:blogpost_with_upload, :user => @user)
     end
 
     describe "failure" do
       
       before(:each) do
         test_sign_in(@user)
-        @attr = {:title => "",
-                 :subtitle => "",
-                 :content => ""}
+        @attr = Factory.attributes_for(:blogpost).merge(:uploads_attributes => { :image => { :image_file_name => "spec/fixtures/images/rails.png"} })
       end
 
-      it "should render the update template" do
-        put :update, :id => @blogpost, :blogpost => @attr
+      it "should render the update template for empty title" do
+        put :update, :id => @blogpost, :blogpost => @attr.merge(:title => "")
+        response.should render_template('edit')
+      end
+
+      it "should render the update template for empty subtitle" do
+        put :update, :id => @blogpost, :blogpost => @attr.merge(:subtitle => "")
+        response.should render_template('edit')
+      end
+
+      it "should render the update template for empty content" do
+        put :update, :id => @blogpost, :blogpost => @attr.merge(:content => "")
         response.should render_template('edit')
       end
 
       it "should have the right title" do
-        put :update, :id => @blogpost, :blogpost => @attr
+        put :update, :id => @blogpost, :blogpost => @attr.merge(:content => "")
         response.should have_selector("title", :content => "Edit Blogpost")
       end
-
-      it "should reject bad upload filename"
     end
 
     describe "success" do
 
       before(:each) do
         test_sign_in(@user)
-        @attr = {:title => "New Title",
-                 :subtitle => "New subtitle",
-                 :content => "New content."}
+        @attr = Factory.attributes_for(:blogpost).merge(:uploads_attributes => { :image => { :image_file_name => "spec/fixtures/images/rails2.png"} }).merge(:title => "foo")
       end
 
       it "should update the post" do
@@ -207,6 +224,18 @@ describe BlogpostsController do
         @blogpost.subtitle.should == @attr[:subtitle]
         @blogpost.content.should == @attr[:content]
         response.should redirect_to(blogpost_path(@blogpost))
+      end
+
+      it "should add the second image" do
+        lambda do
+          put :update, :id => @blogpost, :blogpost => @attr
+        end.should change(Upload, :count).by(1)
+      end
+
+      it "should remove the image" do
+        lambda do
+          put :update, :id => @blogpost, :blogpost => @attr.merge(:uploads_attributes => {:image => { :id => @blogpost.uploads[0].id, :_destroy=> 1 }})
+        end.should change(Upload, :count).by(-1)
       end
     end
 
@@ -231,7 +260,7 @@ describe BlogpostsController do
 
     before(:each) do
       @user = Factory(:user)
-      @blogpost = Factory(:blogpost, :user => @user)
+      @blogpost = Factory(:blogpost_with_upload, :user => @user)
     end
 
     describe "failure" do
@@ -248,7 +277,7 @@ describe BlogpostsController do
           delete :destroy, :id => @blogpost
           flash[:success].should =~ /Blogpost deleted/i
           response.should redirect_to(user_path(@user))
-        end.should change(Blogpost, :count).by(-1)
+        end.should change(Blogpost, :count).by(-1) && change(Upload, :count).by(-1)
       end
     end
 

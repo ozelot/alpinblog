@@ -17,7 +17,15 @@ Factory.define :blogpost do |blogpost|
   blogpost.subtitle "The subtitle"
   blogpost.content "The content."
   blogpost.association :user
-  blogpost.photo_file_name :filename
-  blogpost.photo_content_type "image/png"
-  blogpost.photo_file_size "6646"
+end
+
+Factory.define :upload do |upload|
+  upload.image_file_name "spec/fixtures/images/rails.png"
+  upload.image_content_type "image/png"
+  upload.image_file_size "6646"
+  upload.association :blogpost
+end
+
+Factory.define :blogpost_with_upload, :parent => :blogpost do |blogpost|
+  blogpost.after_create { |b| Factory(:upload, :blogpost => b) }
 end

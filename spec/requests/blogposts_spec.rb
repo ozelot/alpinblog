@@ -50,16 +50,6 @@ describe "Blogposts" do
           response.should have_selector("div#error_explanation")
         end.should_not change(Blogpost, :count)
       end
-
-      it "should not create a blogpost with not existing upload file" do
-        lambda do
-          fill_in :title, :with => @title
-          fill_in :subtitle, :with => @subtitle
-          fill_in :content, :with => @content
-          fill_in :blogpost_photo, :with => "path/to/not/existing/file.png"
-          click_button
-        end.should raise_error
-      end
     end
 
     describe "success" do
@@ -69,7 +59,6 @@ describe "Blogposts" do
           fill_in :title, :with => @title
           fill_in :subtitle, :with => @subtitle
           fill_in :content, :with => @content
-          fill_in :blogpost_photo, :with => "spec/fixtures/images/rails.png"
           click_button
           flash[:success].should =~ /blogpost created/i
         end.should change(Blogpost, :count).by(1)
