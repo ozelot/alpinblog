@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 require 'spec_helper'
 
 describe "LayoutLinks" do
@@ -39,6 +40,19 @@ describe "LayoutLinks" do
       response.should have_selector('title', :content => "Home")
       click_link "Sign up now!"
       response.should have_selector('title', :content => "Sign up")
+    end
+
+    describe "shadowbox" do
+
+      before(:each) do
+        @user = Factory(:user)
+        @blogpost = Factory(:blogpost_with_upload, :user => @user)
+      end
+   
+      it "should load blogpost image set up correctly" do
+        get '/'
+        response.should have_selector('a', :rel => "shadowbox[1]")
+      end
     end
   end
   
