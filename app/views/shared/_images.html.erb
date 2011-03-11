@@ -1,5 +1,5 @@
 <div class="photo">
   <% blogpost.uploads.each do |upload| %>
-  <%= link_to image_tag(upload.image.url(:thumb)), upload.image.url(:medium), :rel => "shadowbox[#{blogpost.id}]", :src => upload.image.url(:thumb), :title => upload.image_file_name %>
+  <%= link_to image_tag(upload.image.url(:thumb, false)), upload.image.url(:medium, false), :rel => "shadowbox[#{blogpost.id}]", :src => upload.image.url(:thumb, false), :title => upload.image_file_name %>
   <% end %>
 </div>
