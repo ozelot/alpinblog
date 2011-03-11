@@ -2,7 +2,7 @@ module ApplicationHelper
 
   # Return logo image
   def logo
-      image_tag("logo.png", :size => "100x100" ,:alt => "AlpineFreunde")
+      image_tag("logo.png", :size => "250x83" ,:alt => "AlpinFreunde", :class => "logo")
   end
 
   # Return a title on per page basis

@@ -291,5 +291,8 @@ form.new_blogpost textarea {
 }
 
 
-/* Styling the logo page */
+/* Styling the logo */
 
+img.logo{
+  margin-left: -80px;
+}
