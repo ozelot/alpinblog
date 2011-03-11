@@ -12,7 +12,7 @@
 /*jslint browser: true */
 /*global File, FileReader, FormData, unescape, jQuery */
 
-(function ($) {
+(function (jQuery) {
 
     var defaultNamespace = 'file_upload',
         undef = 'undefined',
@@ -88,7 +88,7 @@
                     }
                     documentListeners['dragover.'   + settings.namespace] = fileUpload.onDocumentDragOver;
                     documentListeners['drop.'       + settings.namespace] = fileUpload.onDocumentDrop;
-                    $(document).bind(documentListeners);
+                    jQuery(document).bind(documentListeners);
                     if (typeof settings.onDragEnter === func) {
                         dropZoneListeners['dragenter.' + settings.namespace] = function (e) {
                             settings.onDragEnter(e);
@@ -107,10 +107,10 @@
             },
 
             removeEventHandlers = function () {
-                $.each(documentListeners, function (key, value) {
-                    $(document).unbind(key, value);
+                jQuery.each(documentListeners, function (key, value) {
+                    jQuery(document).unbind(key, value);
                 });
-                $.each(dropZoneListeners, function (key, value) {
+                jQuery.each(dropZoneListeners, function (key, value) {
                     settings.dropZone.unbind(key, value);
                 });
                 fileInput.unbind('change.' + settings.namespace);
@@ -164,11 +164,11 @@
                 var formData;
                 if (typeof settings.formData === func) {
                     return settings.formData(settings.uploadForm || uploadForm);
-                } else if ($.isArray(settings.formData)) {
+                } else if (jQuery.isArray(settings.formData)) {
                     return settings.formData;
                 } else if (settings.formData) {
                     formData = [];
-                    $.each(settings.formData, function (name, value) {
+                    jQuery.each(settings.formData, function (name, value) {
                         formData.push({name: name, value: value});
                     });
                     return formData;
@@ -183,7 +183,7 @@
                         index = url.indexOf(host, indexStart),
                         pathIndex = index + host.length;
                     if ((index === indexStart || index === url.indexOf('@', indexStart) + 1) &&
-                            (url.length === pathIndex || $.inArray(url.charAt(pathIndex), ['/', '?', '#']) !== -1)) {
+                            (url.length === pathIndex || jQuery.inArray(url.charAt(pathIndex), ['/', '?', '#']) !== -1)) {
                         return true;
                     }
                     return false;
@@ -202,7 +202,7 @@
             formDataUpload = function (files, xhr, settings) {
                 var formData = new FormData(),
                     i;
-                $.each(getFormData(settings), function (index, field) {
+                jQuery.each(getFormData(settings), function (index, field) {
                     formData.append(field.name, field.value);
                 });
                 for (i = 0; i < files.length; i += 1) {
@@ -224,14 +224,14 @@
                 var doubleDash = '--',
                     crlf     = '\r\n',
                     formData = '';
-                $.each(fields, function (index, field) {
+                jQuery.each(fields, function (index, field) {
                     formData += doubleDash + boundary + crlf +
                         'Content-Disposition: form-data; name="' +
                         unescape(encodeURIComponent(field.name)) +
                         '"' + crlf + crlf +
                         unescape(encodeURIComponent(field.value)) + crlf;
                 });
-                $.each(files, function (index, file) {
+                jQuery.each(files, function (index, file) {
                     formData += doubleDash + boundary + crlf +
                         'Content-Disposition: form-data; name="' +
                         unescape(encodeURIComponent(filesFieldName)) +
@@ -285,14 +285,14 @@
                     } else if (typeof FileReader !== undef) {
                         fileReaderUpload(filesToUpload, xhr, settings);
                     } else {
-                        $.error('Browser does neither support FormData nor FileReader interface');
+                        jQuery.error('Browser does neither support FormData nor FileReader interface');
                     }
                 }
             },
 
             handleUpload = function (event, files, input, form, index) {
                 var xhr = new XMLHttpRequest(),
-                    uploadSettings = $.extend({}, settings);
+                    uploadSettings = jQuery.extend({}, settings);
                 uploadSettings.fileInput = input;
                 uploadSettings.uploadForm = form;
                 if (typeof uploadSettings.initUpload === func) {
@@ -327,8 +327,8 @@
                 form.find(':input').not(':disabled')
                     .attr('disabled', true)
                     .addClass(settings.namespace + '_disabled');
-                $.each(formData, function (index, field) {
-                    $('<input type="hidden"/>')
+                jQuery.each(formData, function (index, field) {
+                    jQuery('<input type="hidden"/>')
                         .attr('name', field.name)
                         .val(field.value)
                         .addClass(settings.namespace + '_form_data')
@@ -369,7 +369,7 @@
                             settings.onLoad(e, [{name: input.val(), type: null, size: null}], 0, iframe, settings);
                         }
                         // Fix for IE endless progress bar activity bug (happens on form submits to iframe targets):
-                        $('<iframe src="javascript:false;" style="display:none"></iframe>').appendTo(form).remove();
+                        jQuery('<iframe src="javascript:false;" style="display:none"></iframe>').appendTo(form).remove();
                     });
                 form
                     .attr('action', getUrl(settings))
@@ -387,9 +387,9 @@
 
             handleLegacyUpload = function (event, input, form) {
                 // javascript:false as iframe src prevents warning popups on HTTPS in IE6:
-                var iframe = $('<iframe src="javascript:false;" style="display:none" name="iframe_' +
+                var iframe = jQuery('<iframe src="javascript:false;" style="display:none" name="iframe_' +
                     settings.namespace + '_' + (new Date()).getTime() + '"></iframe>'),
-                    uploadSettings = $.extend({}, settings);
+                    uploadSettings = jQuery.extend({}, settings);
                 uploadSettings.fileInput = input;
                 uploadSettings.uploadForm = form;
                 iframe.readyState = 0;
@@ -427,7 +427,7 @@
             
             replaceFileInput = function (input) {
                 var inputClone = input.clone(true);
-                $('<form/>').append(inputClone).get(0).reset();
+                jQuery('<form/>').append(inputClone).get(0).reset();
                 input.after(inputClone).detach();
                 initFileInput();
             };
@@ -477,8 +477,8 @@
                     settings.onChange(e) === false) {
                 return false;
             }
-            var input = $(e.target),
-                form = $(e.target.form);
+            var input = jQuery(e.target),
+                form = jQuery(e.target.form);
             if (form.length === 1) {
                 input.data(defaultNamespace + '_form', form);
                 replaceFileInput(input);
@@ -494,13 +494,13 @@
 
         this.init = function (options) {
             if (options) {
-                $.extend(settings, options);
+                jQuery.extend(settings, options);
                 optionsReference = options;
             }
             initUploadForm();
             initFileInput();
             if (container.data(settings.namespace)) {
-                $.error('FileUpload with namespace "' + settings.namespace + '" already assigned to this element');
+                jQuery.error('FileUpload with namespace "' + settings.namespace + '" already assigned to this element');
                 return;
             }
             container
@@ -516,16 +516,16 @@
                 uploadFormFilterUpdate,
                 fileInputFilterUpdate;
             if (typeof options === undef) {
-                return $.extend({}, settings);
+                return jQuery.extend({}, settings);
             }
             if (optionsReference) {
-                $.extend(optionsReference, options);
+                jQuery.extend(optionsReference, options);
             }
             removeEventHandlers();
-            $.each(options, function (name, value) {
+            jQuery.each(options, function (name, value) {
                 switch (name) {
                 case 'namespace':
-                    $.error('The FileUpload namespace cannot be updated.');
+                    jQuery.error('The FileUpload namespace cannot be updated.');
                     return;
                 case 'uploadFormFilter':
                     uploadFormFilterUpdate = true;
@@ -585,44 +585,44 @@
     methods = {
         init : function (options) {
             return this.each(function () {
-                (new FileUpload($(this))).init(options);
+                (new FileUpload(jQuery(this))).init(options);
             });
         },
         
         option: function (option, value, namespace) {
             namespace = namespace ? namespace : defaultNamespace;
-            var fileUpload = $(this).data(namespace);
+            var fileUpload = jQuery(this).data(namespace);
             if (fileUpload) {
                 if (typeof option === 'string') {
                     return fileUpload.option(option, value);
                 }
                 return fileUpload.options(option);
             } else {
-                $.error('No FileUpload with namespace "' + namespace + '" assigned to this element');
+                jQuery.error('No FileUpload with namespace "' + namespace + '" assigned to this element');
             }
         },
                 
         destroy : function (namespace) {
             namespace = namespace ? namespace : defaultNamespace;
             return this.each(function () {
-                var fileUpload = $(this).data(namespace);
+                var fileUpload = jQuery(this).data(namespace);
                 if (fileUpload) {
                     fileUpload.destroy();
                 } else {
-                    $.error('No FileUpload with namespace "' + namespace + '" assigned to this element');
+                    jQuery.error('No FileUpload with namespace "' + namespace + '" assigned to this element');
                 }
             });
 
         }
     };
     
-    $.fn.fileUpload = function (method) {
+    jQuery.fn.fileUpload = function (method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else if (typeof method === 'object' || !method) {
             return methods.init.apply(this, arguments);
         } else {
-            $.error('Method ' + method + ' does not exist on jQuery.fileUpload');
+            jQuery.error('Method ' + method + ' does not exist on jQuery.fileUpload');
         }
     };
     
