@@ -118,9 +118,11 @@ describe "Blogposts" do
 
       it "should have correct delete link" do
         click_link("[...]")
-        click_link("delete")
-        # dont know how to test confirm on click "delete"
-        # click_link("delete", :confirm => true)
+        lambda do
+          click_link 'Delete', :method => :delete, :javascript => true 
+          # dont know how to test confirm on click "delete"
+          # click_link("delete", :confirm => true)
+        end.should change(Blogpost, :count).by(-1)
       end
     end
   end
