@@ -12,7 +12,7 @@
 /*jslint browser: true */
 /*global jQuery, FileReader, URL */
 
-(function ($) {
+(function (jQuery) {
 
     var undef = 'undefined',
         func = 'function',
@@ -52,7 +52,7 @@
             isDropZoneEnlarged;
         
         this.dropZone = container;
-        this.imageTypes = /^image\/(gif|jpeg|png)$/;
+        this.imageTypes = /^image\/(gif|jpeg|png)jQuery/;
         this.previewSelector = '.file_upload_preview';
         this.progressSelector = '.file_upload_progress div';
         this.cancelSelector = '.file_upload_cancel button';
@@ -74,7 +74,7 @@
                             callBack();
                         } catch (e) {
                             // Fix endless exception loop:
-                            $(this).stop();
+                            jQuery(this).stop();
                             throw e;
                         }
                     }
@@ -87,13 +87,13 @@
         this.removeNode = function (node, callBack) {
             if (node) {
                 node.fadeOut(function () {
-                    $(this).remove();
+                    jQuery(this).remove();
                     if (typeof callBack === func) {
                         try {
                             callBack();
                         } catch (e) {
                             // Fix endless exception loop:
-                            $(this).stop();
+                            jQuery(this).stop();
                             throw e;
                         }
                     }
@@ -122,7 +122,7 @@
                     value: value
                 });
             } else {
-                var progressbar = $('<progress value="' + value + '" max="100"/>').appendTo(node);
+                var progressbar = jQuery('<progress value="' + value + '" max="100"/>').appendTo(node);
                 progressbar.progressbar = function (key, value) {
                     progressbar.attr('value', value);
                 };
@@ -141,7 +141,7 @@
                     handler.cancelUpload(e, files, index, xhr, handler);
                 });
                 uploadRow.find(handler.previewSelector).each(function () {
-                    $(this).append(new LocalImage(files[index], handler.imageTypes));
+                    jQuery(this).append(new LocalImage(files[index], handler.imageTypes));
                 });
             }
             handler.addNode(
@@ -172,10 +172,10 @@
         
         this.parseResponse = function (xhr) {
             if (typeof xhr.responseText !== undef) {
-                return $.parseJSON(xhr.responseText);
+                return jQuery.parseJSON(xhr.responseText);
             } else {
                 // Instead of an XHR object, an iframe is used for legacy browsers:
-                return $.parseJSON(xhr.contents().text());
+                return jQuery.parseJSON(xhr.contents().text());
             }
         };
         
@@ -269,39 +269,39 @@
             }
         };
 
-        $.extend(this, options);
+        jQuery.extend(this, options);
     };
 
     methods = {
         init : function (options) {
             return this.each(function () {
-                $(this).fileUpload(new UploadHandler($(this), options));
+                jQuery(this).fileUpload(new UploadHandler(jQuery(this), options));
             });
         },
         
         option: function (option, value, namespace) {
             if (typeof option === undef || (typeof option === 'string' && typeof value === undef)) {
-                return $(this).fileUpload('option', option, value, namespace);
+                return jQuery(this).fileUpload('option', option, value, namespace);
             }
             return this.each(function () {
-                $(this).fileUpload('option', option, value, namespace);
+                jQuery(this).fileUpload('option', option, value, namespace);
             });
         },
             
         destroy : function (namespace) {
             return this.each(function () {
-                $(this).fileUpload('destroy', namespace);
+                jQuery(this).fileUpload('destroy', namespace);
             });
         }
     };
     
-    $.fn.fileUploadUI = function (method) {
+    jQuery.fn.fileUploadUI = function (method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else if (typeof method === 'object' || !method) {
             return methods.init.apply(this, arguments);
         } else {
-            $.error('Method ' + method + ' does not exist on jQuery.fileUploadUI');
+            jQuery.error('Method ' + method + ' does not exist on jQuery.fileUploadUI');
         }
     };
     
