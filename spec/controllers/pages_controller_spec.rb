@@ -5,7 +5,7 @@ describe PagesController do
 
   before(:each) do
     # Define @base_title here
-    @base_title = "Ruby on Rails Tutorial Sample App | "
+    @base_title = "Alpinfreunde | "
     @user = Factory(:user)
     @blogpost = Factory(:blogpost_with_upload, :user => @user)
   end
